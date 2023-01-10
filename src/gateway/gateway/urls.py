@@ -20,7 +20,7 @@ from oauth2_provider.views import TokenView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("oauth/token", TokenView.as_view()),
+    path("", TokenView.as_view()),
     path('manage/', include('health.urls')),
     path('api/v1/', include('source.urls')),
 ]

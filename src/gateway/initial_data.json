@@ -1,0 +1,36 @@
+[
+    {
+        "model": "auth.User",
+        "pk": 1,
+        "fields": {
+          "username": "maria@yandex.ru",
+          "password": "zkvdoKPQuM",
+          "last_login": null,
+          "is_superuser": false,
+          "first_name": "",
+          "last_name": "",
+          "email": "",
+          "is_staff": false,
+          "is_active": true,
+          "date_joined": "2022-12-11T15:09:13.399Z",
+          "groups": [],
+          "user_permissions": []
+        }
+    }, {
+        "model": "oauth2_provider.Application",
+        "pk": 1,
+        "fields": {
+          "client_id": "0oa7wsbqikuDMeTDa5d7",
+          "user": 1,
+          "redirect_uris": "",
+          "client_type": "public",
+          "authorization_grant_type": "password",
+          "client_secret": "774WuYw7pJdbsGRQYkMJMM7TrvubSwlkH8D1QH3h",
+          "name": "",
+          "skip_authorization": false,
+          "created": "2022-12-11T14:31:46.236Z",
+          "updated": "2022-12-11T14:31:46.236Z",
+          "algorithm": "RS256"
+        }
+    }
+]

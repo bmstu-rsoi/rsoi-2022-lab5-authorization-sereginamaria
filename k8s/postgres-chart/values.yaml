@@ -10,7 +10,9 @@ users:
   - name: program
     password: test
 
-datases:
+databases:
+  - name: gateway
+    user: program
   - name: libraries
     user: program
   - name: ratings

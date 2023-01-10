@@ -4,27 +4,27 @@
   "values": [
     {
       "key": "serviceUrl",
-      "value": "",
+      "value": "http://51.250.80.134",
       "enabled": true
     },
     {
       "key": "identityProviderUrl",
-      "value": "",
+      "value": "dev-12234701.okta.com",
       "enabled": true
     },
     {
       "key": "username",
-      "value": "",
+      "value": "maria@yandex.ru",
       "enabled": true
     },
     {
       "key": "password",
-      "value": "",
+      "value": "zkvdoKPQuM",
       "enabled": true
     },
     {
       "key": "clientId",
-      "value": "",
+      "value": "BDgzoBFQ4OHG4zR2inCu0m3k3Eu1hUOJBcGFeftX",
       "enabled": true
     },
     {

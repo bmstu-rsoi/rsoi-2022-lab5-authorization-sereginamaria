@@ -59,12 +59,12 @@
 									"type": "text"
 								},
 								{
-									"key": "clientId",
+									"key": "client_id",
 									"value": "{{clientId}}",
 									"type": "text"
 								},
 								{
-									"key": "clientSecret",
+									"key": "client_secret",
 									"value": "{{clientSecret}}",
 									"type": "text"
 								}
@@ -459,7 +459,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bookUid\": \"{{bookUid}}\",\n    \"libraryUid\": \"{{libraryUid}}\",\n    \"tillDate\": \"2021-10-11\"\n}"
+							"raw": "{\n    \"bookUid\": \"{{bookUid}}\",\n    \"libraryUid\": \"{{libraryUid}}\",\n    \"tillDate\": \"2023-10-11\"\n}"
 						},
 						"url": {
 							"raw": "{{serviceUrl}}/api/v1/reservations",
@@ -537,7 +537,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bookUid\": \"{{bookUid}}\",\n    \"libraryUid\": \"{{libraryUid}}\",\n    \"tillDate\": \"2021-10-11\"\n}"
+							"raw": "{\n    \"bookUid\": \"{{bookUid}}\",\n    \"libraryUid\": \"{{libraryUid}}\",\n    \"tillDate\": \"2023-10-11\"\n}"
 						},
 						"url": {
 							"raw": "{{serviceUrl}}/api/v1/reservations",
@@ -682,7 +682,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2021-10-11\"\n}"
+							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2023-10-11\"\n}"
 						},
 						"url": {
 							"raw": "{{serviceUrl}}/api/v1/reservations/:reservationUid/return",
@@ -742,7 +742,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2021-10-11\"\n}"
+							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2023-10-11\"\n}"
 						},
 						"url": {
 							"raw": "{{serviceUrl}}/api/v1/reservations/:reservationUid/return",

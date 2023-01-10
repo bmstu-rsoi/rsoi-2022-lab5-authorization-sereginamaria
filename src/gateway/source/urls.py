@@ -1,9 +1,13 @@
 from django.urls import path
 
-from .views import rating, libraries, libraries_uuid, libraries_uuid_books, reservations, reservations_uuid_return
+from .views import (
+    callback, rating, libraries, libraries_uuid, libraries_uuid_books, reservations, reservations_uuid_return,
+)
 
 urlpatterns = [
     path(
+       "callback", callback,
+    ), path(
         "rating", rating,
     ),  path(
         "libraries", libraries,

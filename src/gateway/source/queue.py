@@ -18,21 +18,21 @@ class _Queue:
     def retry_library(self):
         while True:
             instance = self.information[Service.LIBRARY].get()
-            if instance.execute().status_code not in (200, 201):
+            if instance.execute().status_code not in (200, 201, 401, 404, 500):
                 self.put(Service.LIBRARY, instance)
             self.information[Service.LIBRARY].task_done()
 
     def retry_rating(self):
         while True:
             instance = self.information[Service.RATING].get()
-            if instance.execute().status_code not in (200, 201):
+            if instance.execute().status_code not in (200, 201, 401, 404, 500):
                 self.put(Service.RATING, instance)
             self.information[Service.RATING].task_done()
 
     def retry_reservation(self):
         while True:
             instance = self.information[Service.RESERVATION].get()
-            if instance.execute().status_code not in (200, 201):
+            if instance.execute().status_code not in (200, 201, 401, 404, 500):
                 self.put(Service.RESERVATION, instance)
             self.information[Service.RESERVATION].task_done()
 

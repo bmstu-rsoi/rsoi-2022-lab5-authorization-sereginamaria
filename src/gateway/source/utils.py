@@ -1,8 +1,8 @@
 import requests
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import JsonResponse
+from oauth2_provider.contrib.rest_framework import OAuth2Authentication
 from rest_framework import status as status_codes
-from rest_framework.exceptions import APIException
 from rest_framework.utils import json
 
 from .circuitbreaker import (
@@ -63,6 +63,7 @@ def make_request(
     headers: dict[str, str],
     params: dict[str, int | float | str] = None,
     data: dict = None,
+    instance=None,
     **url_kwargs: dict[str, str],
 ) -> Request:
     params = {} if params is None else params
@@ -73,6 +74,7 @@ def make_request(
         headers=headers,
         params=map_kwargs(**params),
         data=data,
+        instance=instance,
     )
 
 
@@ -104,14 +106,9 @@ def get_request_instance(url: str, WSGIRequest, **url_kwargs):
             {}
         )),
         data=url_kwargs.pop("data", {}),
+        instance=WSGIRequest,
         **url_kwargs,
     )
-
-
-class ServiceUnAvailable(APIException):
-    status_code = status_codes.HTTP_503_SERVICE_UNAVAILABLE
-    default_detail = 'Service is unavailable.'
-    default_code = 'service_unavailable'
 
 
 def request_error(request, *args, detail=None, **kwargs):
@@ -124,6 +121,26 @@ def request_error(request, *args, detail=None, **kwargs):
     )
 
 
+def request_authentication_failed(request, *args, detail=None, **kwargs):
+    data = {
+        "error": "Incorrect authentication credentials."
+    } if detail is None else detail
+    return as_JsonResponse(
+        content=data,
+        status=status_codes.HTTP_401_UNAUTHORIZED,
+    )
+
+
+def request_non_authenticated(request, *args, detail=None, **kwargs):
+    data = {
+        "error": "Authentication credentials were not provided."
+    } if detail is None else detail
+    return as_JsonResponse(
+        content=data,
+        status=status_codes.HTTP_401_UNAUTHORIZED,
+    )
+
+
 def validate_on_cb(
     service: Service, url: str, on_unavailable: dict | list | str, shielding: dict = {}, as_method: str = None
 ):
@@ -131,10 +148,14 @@ def validate_on_cb(
         def wrap(
             WSGIRequest, /, *, in_json: bool = True, query_params: dict = None, **url_kwargs: dict[str, str]
         ) -> JsonResponse | Request:
+            if WSGIRequest.headers.get("Authorization", None) is None:
+                return request_non_authenticated(WSGIRequest)
+            if OAuth2Authentication().authenticate(WSGIRequest) is None:
+                return request_authentication_failed(WSGIRequest)
             if CircuitBreaker.should_raise(service):
                 return request_error(WSGIRequest, detail=on_unavailable)
             params = query_params if query_params is not None else {}
-            params.update(**map_kwargs(**as_json(WSGIRequest.body)))
+            params.update(**map_kwargs(**WSGIRequest.data))
             params = {
                 shielding.get(key, key): value
                 for key, value in params.items()
@@ -146,7 +167,7 @@ def validate_on_cb(
             )
             if not in_json:
                 return request_instance
-            if (rq := request_instance.execute()).status_code not in (200, 201):
+            if (rq := request_instance.execute()).status_code not in (200, 201, 401, 404, 500):
                 if request_instance.method in ("POST", "PUT", "PATCH"):
                     Queue.put(service, request_instance)
                 CircuitBreaker.on_failure(service)
@@ -166,7 +187,7 @@ def validate_on_cb_with(service: Service, url: str, before: dict, on: dict, on_u
                 r = validate_on_cb(
                     value.get("service"), value.get("url"), value.get("on_unavailable")
                 )(None)(WSGIRequest, in_json=in_json, method="GET", **url_kwargs)
-                if r.status_code not in (200, 201):
+                if r.status_code not in (200, 201, 401, 404, 500):
                     return r
             return validate_on_cb(
                 service, url, on_unavailable.get(WSGIRequest.method)

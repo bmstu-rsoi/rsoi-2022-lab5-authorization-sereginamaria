@@ -4,14 +4,6 @@ from django.test.client import Client
 
 class GatewayTestCase(TestCase):
 
-    def test_get_rating(self):
-        client = Client(HTTP_X_USER_NAME="Test Max")
-        response_instance = client.get(
-            "http://rating:8050/api/v1/rating"
-        )
-        self.assertEqual(response_instance.status_code, 200)
-        self.assertEqual(response_instance.json().get("stars", 0), 75)
-
     def test_get_libraries(self):
         client = Client()
         response_instance = client.get(

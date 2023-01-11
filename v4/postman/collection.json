@@ -71,12 +71,12 @@
 							]
 						},
 						"url": {
-								"raw": "{{identityProviderUrl}}/v1/token",
+								"raw": "{{identityProviderUrl}}/oauth/token",
 							"host": [
 								"{{identityProviderUrl}}"
 							],
 							"path": [
-								"v1",
+								"oauth",
 								"token"
 							]
 						}

@@ -36,7 +36,7 @@ class Request:
             return requests.request(
                 method=self.method,
                 url=self.url,
-                headers=headers,
+                headers=self.headers,
                 params=self.params,
                 data=self.data,
             )

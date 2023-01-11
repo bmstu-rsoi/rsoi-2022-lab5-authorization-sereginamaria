@@ -3,7 +3,7 @@
         "model": "source.RatingModel",
         "pk": 1,
         "fields": {
-            "username": "Test Max",
+            "username": "TestMax",
             "stars": 75
         }
     }

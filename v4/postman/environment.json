@@ -9,27 +9,27 @@
     },
     {
       "key": "identityProviderUrl",
-      "value": "dev-v62i7f4d6kmouinu.us.auth0.com",
+      "value": "https://dev-12234701.okta.com",
       "enabled": true
     },
     {
       "key": "username",
-      "value": "mashasereginaa@yandex.ru",
+      "value": "maria@yandex.ru",
       "enabled": true
     },
     {
       "key": "password",
-      "value": "TCjeii4gip9%nGBZf?SK",
+      "value": "zkvdoKPQuM",
       "enabled": true
     },
     {
       "key": "clientId",
-      "value": "3a1uuQwcpMlsXQpBOiS44wklTD3mxRR0",
+      "value": "0oa7wsbqikuDMeTDa5d7",
       "enabled": true
     },
     {
       "key": "clientSecret",
-      "value": "",
+      "value": "774WuYw7pJdbsGRQYkMJMM7TrvubSwlkH8D1QH3h",
       "enabled": true
     }
   ],

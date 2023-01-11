@@ -5,7 +5,6 @@ on:
       - master
 
 env:
-  OIDC_RSA_PRIVATE_KEY: ${{ secrets.OIDC_RSA_PRIVATE_KEY }}
   DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
   DOCKERHUB_PASS: ${{ secrets.DOCKERHUB_PASS }}
   KUBE_URL: ${{ secrets.KUBE_URL }}

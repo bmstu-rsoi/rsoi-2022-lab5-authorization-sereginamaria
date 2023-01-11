@@ -9,7 +9,7 @@
     },
     {
       "key": "identityProviderUrl",
-      "value": "https://dev-12234701.okta.com",
+      "value": "dev-12234701.okta.com",
       "enabled": true
     },
     {
@@ -24,12 +24,12 @@
     },
     {
       "key": "clientId",
-      "value": "0oa7wsbqikuDMeTDa5d7",
+      "value": "0oa7x1morbTqaIstJ5d7",
       "enabled": true
     },
     {
       "key": "clientSecret",
-      "value": "774WuYw7pJdbsGRQYkMJMM7TrvubSwlkH8D1QH3h",
+      "value": "MnGbXqb48IZbUTEZbdFiDVFt_FKbCi5koLDHV0py",
       "enabled": true
     }
   ],

@@ -25,7 +25,7 @@ class Pagination(PageNumberPagination):
 
 
 def get_object_based_on_header(self):
-    self.kwargs["username"] = self.request.headers.get("X-User-Name")
+    self.kwargs["username"] = self.request.headers.get("Authorization")
     return super(self.__class__, self).get_object()
 
 

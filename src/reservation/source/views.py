@@ -37,13 +37,13 @@ class ReservationAPIView(ListCreateAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         queryset = queryset.filter(
-            username=self.request.headers.get("X-User-Name")
+            username=self.request.headers.get("Authorization")
         )
         return queryset
 
     def get_serializer(self, *args, **kwargs):
         if "data" in kwargs:
-            kwargs["data"]["username"] = self.request.headers.get("X-User-Name")
+            kwargs["data"]["username"] = self.request.headers.get("Authorization")
         return super().get_serializer(*args, **kwargs)
 
 

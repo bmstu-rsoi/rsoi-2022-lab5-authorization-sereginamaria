@@ -15,6 +15,11 @@ from .circuitbreaker import (
 
 
 @api_view(["GET"])
+def callback(WSGIRequest, **kwargs):
+    return JsonResponse({}, status=200)
+
+
+@api_view(["GET"])
 @validate_on_cb(
     service=Service.RATING, url="http://rating:8050/api/v1/rating",
     on_unavailable={"message": "Bonus Service unavailable"},
@@ -200,7 +205,7 @@ def reservations_uuid(WSGIRequest, instance: JsonResponse | Request, params: dic
     as_method="PATCH",
 )
 def reservations_uuid_return(WSGIRequest, instance: JsonResponse | Request, params: dict) -> JsonResponse | Request:
-    reservation_data = as_json(instance.content)
+    reservation_data = map_kwargs(**as_json(instance.content))
     is_expired = reservation_data.get("status") == "EXPIRED"
     book_instance = libraries_uuid_books_uuid_return(
         WSGIRequest, method="PATCH",
@@ -218,7 +223,7 @@ def reservations_uuid_return(WSGIRequest, instance: JsonResponse | Request, para
             WSGIRequest, method="PATCH",
             on_unavailable={"message": "Bonus Service unavailable"}, query_params={"stars": 10}
         )
-    if as_json(book_instance.content).get("condition") != reservation_data.get("condition"):
+    if as_json(book_instance.content).get("condition") != params.get("condition"):
         rating_decrease(
             WSGIRequest, method="PATCH",
             on_unavailable={"message": "Bonus Service unavailable"}, query_params={"stars": 10}

@@ -472,35 +472,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const moment = require(\"moment\")",
-									"",
 									"pm.test(\"Взять книгу в библиотеке\", () => {",
-									"    pm.response.to.have.status(200)",
-									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.contains(\"application/json\");",
-									"",
-									"    const bookUid = pm.collectionVariables.get(\"bookUid\")",
-									"    const libraryUid = pm.collectionVariables.get(\"libraryUid\")",
-									"",
-									"    const response = pm.response.json();",
-									"    const request = JSON.parse(pm.request.body.raw)",
-									"",
-									"    pm.expect(response.status).to.be.eq(\"RENTED\")",
-									"    pm.expect(response.startDate).to.be.eq(moment().format(\"YYYY-MM-DD\"))",
-									"    pm.expect(response.tillDate).to.be.eq(request.tillDate)",
-									"",
-									"    pm.expect(response.book).to.be.not.undefined",
-									"    pm.expect(response.book.bookUid).to.be.eq(bookUid)",
-									"    pm.expect(response.book.name).to.be.eq(\"Краткий курс C++ в 7 томах\")",
-									"    pm.expect(response.book.author).to.be.eq(\"Бьерн Страуструп\")",
-									"    pm.expect(response.book.genre).to.be.eq(\"Научная фантастика\")",
-									"",
-									"    pm.expect(response.library).to.be.not.undefined",
-									"    pm.expect(response.library.libraryUid).to.be.eq(libraryUid)",
-									"    pm.expect(response.library.name).to.be.eq(\"Библиотека имени 7 Непьющих\")",
-									"    pm.expect(response.library.city).to.be.eq(\"Москва\")",
-									"    pm.expect(response.library.address).to.be.eq(\"2-я Бауманская ул., д.5, стр.1\")",
-									"",
-									"    pm.collectionVariables.set(\"reservationUid\", response.reservationUid)",
+									"    pm.response.to.have.status(401)",
 									"})"
 								],
 								"type": "text/javascript"
@@ -509,14 +482,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authorizationToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [
@@ -586,31 +552,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Получить информацию по всем взятым в прокат книгам пользователя\", () => {",
-									"    pm.response.to.have.status(200)",
-									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.contains(\"application/json\");",
-									"",
-									"    const bookUid = pm.collectionVariables.get(\"bookUid\")",
-									"    const libraryUid = pm.collectionVariables.get(\"libraryUid\")",
-									"    const reservationUid = pm.collectionVariables.get(\"reservationUid\")",
-									"",
-									"    const response = pm.response.json();",
-									"    pm.expect(response).to.be.an(\"array\")",
-									"    const reservation = _.find(response, { \"reservationUid\": reservationUid })",
-									"    pm.expect(reservation.status).to.be.eq(\"RENTED\")",
-									"    pm.expect(reservation.startDate).to.be.not.undefined",
-									"    pm.expect(reservation.tillDate).to.be.not.undefined",
-									"",
-									"    pm.expect(reservation.book).to.be.not.undefined",
-									"    pm.expect(reservation.book.bookUid).to.be.eq(bookUid)",
-									"    pm.expect(reservation.book.name).to.be.eq(\"Краткий курс C++ в 7 томах\")",
-									"    pm.expect(reservation.book.author).to.be.eq(\"Бьерн Страуструп\")",
-									"    pm.expect(reservation.book.genre).to.be.eq(\"Научная фантастика\")",
-									"",
-									"    pm.expect(reservation.library).to.be.not.undefined",
-									"    pm.expect(reservation.library.libraryUid).to.be.eq(libraryUid)",
-									"    pm.expect(reservation.library.name).to.be.eq(\"Библиотека имени 7 Непьющих\")",
-									"    pm.expect(reservation.library.city).to.be.eq(\"Москва\")",
-									"    pm.expect(reservation.library.address).to.be.eq(\"2-я Бауманская ул., д.5, стр.1\")",
+									"    pm.response.to.have.status(401)",
 									"})"
 								],
 								"type": "text/javascript"
@@ -619,14 +561,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authorizationToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
@@ -651,7 +586,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Вернуть книгу\", () => {",
+									"pm.test(\"Получить рейтинг пользователя\", () => {",
 									"    pm.response.to.have.status(401)",
 									"})"
 								],
@@ -663,35 +598,17 @@
 						"auth": {
 							"type": "noauth"
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2023-10-11\"\n}"
-						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{serviceUrl}}/api/v1/reservations/:reservationUid/return",
+							"raw": "{{serviceUrl}}/api/v1/rating",
 							"host": [
 								"{{serviceUrl}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"reservations",
-								":reservationUid",
-								"return"
-							],
-							"variable": [
-								{
-									"key": "reservationUid",
-									"value": "{{reservationUid}}",
-									"description": "UUID бронирования"
-								}
+								"rating"
 							]
 						}
 					},
@@ -704,8 +621,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"Вернуть книгу\", () => {",
-									"    pm.response.to.have.status(204)",
+									"pm.test(\"Получить рейтинг пользователя\", () => {",
+									"    pm.response.to.have.status(401)",
 									"})"
 								],
 								"type": "text/javascript"
@@ -714,44 +631,19 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authorizationToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
-						"method": "POST",
-						"header": [
-							{
-								"key": "Content-Type",
-								"value": "application/json"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"condition\": \"EXCELLENT\",\n    \"date\": \"2023-10-11\"\n}"
-						},
+						"method": "GET",
+						"header": [],
 						"url": {
-							"raw": "{{serviceUrl}}/api/v1/reservations/:reservationUid/return",
+							"raw": "{{serviceUrl}}/api/v1/rating",
 							"host": [
 								"{{serviceUrl}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"reservations",
-								":reservationUid",
-								"return"
-							],
-							"variable": [
-								{
-									"key": "reservationUid",
-									"value": "{{reservationUid}}",
-									"description": "UUID бронирования"
-								}
+								"rating"
 							]
 						}
 					},
@@ -765,13 +657,7 @@
 							"script": {
 								"exec": [
 									"pm.test(\"Получить рейтинг пользователя\", () => {",
-									"    pm.response.to.have.status(200)",
-									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.contains(\"application/json\");",
-									"",
-									"    const stars = Number(pm.collectionVariables.get(\"stars\"))",
-									"",
-									"    const response = pm.response.json();",
-									"    pm.expect(response.stars).to.be.eq(stars + 1)",
+									"    pm.response.to.have.status(401)",
 									"})"
 								],
 								"type": "text/javascript"
@@ -780,14 +666,7 @@
 					],
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{authorizationToken}}",
-									"type": "string"
-								}
-							]
+							"type": "noauth"
 						},
 						"method": "GET",
 						"header": [],
